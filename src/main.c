@@ -19,7 +19,7 @@ int main()
   srand(time(NULL));
   for (int y = 1; y < height_y - 1; y++) {
     for (int x = 1; x < width_x - 1; x++) {
-        int noise = (rand() % 100) < 2; // шанс случайного зарождения
+        int noise = (rand() % 100) < 2; 
         int alive_neighbors = 0;
 
         for (int dy = -1; dy <= 1; dy++) {
@@ -31,7 +31,6 @@ int main()
             }
         }
 
-        // условие: если рядом ровно 1–2 живых, и повезло
         int clustering = (alive_neighbors > 0 && alive_neighbors <= 2 && (rand() % 100) < 25);
 
         if (noise || clustering) {
