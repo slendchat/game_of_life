@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
+#include <time.h>
+#include <stdlib.h>
 
 #include "../inc/cell.h"
 #include "../inc/board.h"
@@ -12,30 +14,45 @@ int main()
 {
   
   init_board();
-  
-  cell_revive(board[1][1]);
-  cell_revive(board[1][2]);
-  cell_revive(board[1][3]);
-  cell_revive(board[2][2]);
-  cell_revive(board[3][1]);
-  cell_revive(board[3][2]);
-  cell_revive(board[3][3]);
-  
-  for (;;){
-    int changed_cells = 0;
 
-    for (int y = 1; y < height_y - 2; y++){
-      for (int x = 1; x < width_x -2; x++){
-        if (change_cell_state(board[y][x],check_cell_neighbors(board[y][x])))
-          changed_cells++;
-      }
+  // Initialize the board with some alive cells
+  srand(time(NULL));
+  for (int y = 1; y < height_y - 1; y++) {
+    for (int x = 1; x < width_x - 1; x++) {
+        int noise = (rand() % 100) < 2; // шанс случайного зарождения
+        int alive_neighbors = 0;
+
+        for (int dy = -1; dy <= 1; dy++) {
+            for (int dx = -1; dx <= 1; dx++) {
+                if (dy == 0 && dx == 0) continue;
+                if (main_board[y + dy][x + dx].cell_type == ALIVE) {
+                    alive_neighbors++;
+                }
+            }
+        }
+
+        // условие: если рядом ровно 1–2 живых, и повезло
+        int clustering = (alive_neighbors > 0 && alive_neighbors <= 2 && (rand() % 100) < 25);
+
+        if (noise || clustering) {
+            cell_revive(&main_board[y][x]);
+        }
     }
-    
-    draw_frame(board);
-    sleep_ms(500);
+  }
 
-    if (changed_cells == 0)
-      break;
+
+
+  // MAIN LOOP
+  for (;;){
+
+    draw_frame(main_board);
+    
+    update_board_state();
+    
+    sleep_ms(50);
+
+    // if (changed_cells == 0)
+    //   break;
   }
 
   return 0;

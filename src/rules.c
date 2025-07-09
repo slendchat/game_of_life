@@ -1,6 +1,8 @@
-#include "../inc/rules.h"
-#include "../inc/board.h"
 #include "../inc/cell.h"
+#include "../inc/board.h"
+#include "../inc/rules.h"
+#include <string.h>
+
 
 int check_cell_neighbors(cell_entity *cell)
 {
@@ -15,7 +17,7 @@ int check_cell_neighbors(cell_entity *cell)
       if (i == 0 && j == 0)
         continue;
 
-      if ( board[y + i][x + j].cell_type == ALIVE){
+      if ( main_board[y + i][x + j].cell_type == ALIVE) {
         alive_neghbors++;
       }
 
@@ -25,16 +27,23 @@ int check_cell_neighbors(cell_entity *cell)
   return alive_neghbors;
 }
 
-bool change_cell_state(cell_entity *cell, int alive_neghbors)
+void change_cell_state(cell_entity *cell, int alive_neghbors)
 {
-  if ((alive_neghbors < 2 || alive_neghbors > 3) && cell->cell_type != cell_type::DEAD) {
-    cell->die();
-    return true;
-  } else if ((alive_neghbors == 3) && cell->cell_type != cell_type::ALIVE) {
-    cell->revive();
-    return true;
+  if ((alive_neghbors < 2 || alive_neghbors > 3) && cell->cell_type != DEAD) {
+    cell_die(&(buffer_board[cell->pos_y][cell->pos_x]));
+  } else if ((alive_neghbors == 3) && cell->cell_type != ALIVE) {
+    cell_revive(&(buffer_board[cell->pos_y][cell->pos_x]));
   }
-  //return false if no change is made
-  return false;
+}
+
+void update_board_state()
+{
+  memcpy(buffer_board, main_board, sizeof(main_board));
+  for (int y = 1; y < height_y - 1; y++){
+    for (int x = 1; x < width_x -1; x++){
+      change_cell_state(&(main_board[y][x]),check_cell_neighbors(&(main_board[y][x])));
+    }
+  }
+  memcpy(main_board, buffer_board, sizeof(main_board));
 }
 

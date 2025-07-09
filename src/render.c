@@ -8,15 +8,15 @@
 void render_board(cell_entity board[height_y][width_x])
 {
   for (int i = 0; i < height_y; i++){
-    for (int j = 0;) j < width_x; j++){
+    for (int j = 0; j < width_x; j++){
       switch (board[i][j].cell_type){
-        case cell_type::WALL:
+        case WALL:
           putchar('#');
           break;
-        case cell_type::DEAD:
+        case DEAD:
           putchar(' ');
           break;
-        case cell_type::ALIVE:
+        case ALIVE:
           putchar('O');
           break;  
         default:
