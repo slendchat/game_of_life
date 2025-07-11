@@ -7,10 +7,8 @@
 
 extern cell_entity main_board[height_y][width_x];
 extern cell_entity buffer_board[height_y][width_x];
-extern cell_entity old_board[height_y][width_x];
+extern cell_entity* dirty[height_y*width_x];
 
 void init_board();
 
-int get_cells_info(cell_entity board[height_y][width_x]);
-void change_cell_state(cell_entity board[height_y][width_x], cell_entity buffer[height_y][width_x],cell_entity* changing_cells_list, int changing_cells);
-int game_step();
+void fill_board(cell_entity board[height_y][width_x]);

@@ -2,13 +2,14 @@
 #include <unistd.h>
 #include <time.h>
 #include <stdlib.h>
+#include <math.h>
 
 #include "../inc/cell.h"
 #include "../inc/engine.h"
 
 cell_entity main_board[height_y][width_x] = { 0 };
 cell_entity buffer_board[height_y][width_x] = { 0 };
-cell_entity* dirty[height_y*width_x];
+cell_entity* dirty[height_y*width_x] = {0};
 
 #define DISTANCE 10
 
@@ -84,6 +85,7 @@ void fill_dirty_array(int dirty_cells)
 void game_step()
 {
   int dirty_cells = 0;
-
+  init_board();
+  fill_board(main_board);
 
 }
