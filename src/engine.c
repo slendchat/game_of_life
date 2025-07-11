@@ -10,7 +10,7 @@ cell_entity main_board[height_y][width_x] = { 0 };
 cell_entity buffer_board[height_y][width_x] = { 0 };
 cell_entity* dirty[height_y*width_x];
 
-#define BLUR 10
+#define DISTANCE 10
 
 void init_board() 
 {
@@ -40,15 +40,21 @@ void fill_board(cell_entity board[height_y][width_x])
       if(is_center){
         cell_entity* cell = &(board[y][x]);
         cell_revive(cell);
-        for (int dy = -BLUR; dy <= BLUR; dy++) {
-          for (int dx = -BLUR; dx <= BLUR; dx++) {
+        for (int dy = -DISTANCE; dy <= DISTANCE; dy++) {
+          for (int dx = -DISTANCE; dx <= DISTANCE; dx++) {
             if(cell->pos_y + dy > 1 &&
                cell->pos_y + dy < height_y -2 &&
                cell->pos_x + dx > 1 &&
                cell->pos_x + dx < width_x -2 &&
-               dx + dy != 0
+               dx != 0 &&
+               dy != 0
             ){
-              abs()
+              float h = sqrt(dx*dx + dy*dy);
+              float max = sqrt(DISTANCE*DISTANCE + DISTANCE*DISTANCE);
+              int percentage = (1 - h / max) * 100;
+              if((rand() % 100) < percentage){
+                cell_revive(&board[y + dy][x + dx]);
+              }
             }
   
           }
