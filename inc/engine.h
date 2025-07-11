@@ -12,3 +12,4 @@ extern cell_entity* dirty[height_y*width_x];
 void init_board();
 
 void fill_board(cell_entity board[height_y][width_x]);
+int game_step();

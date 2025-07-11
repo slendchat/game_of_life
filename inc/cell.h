@@ -15,4 +15,4 @@ typedef struct {
 } cell_entity;
 
 void cell_die(cell_entity* cell);
-void cell_revive(cell_entity* cell);
+cell_entity* cell_revive(cell_entity* cell);
