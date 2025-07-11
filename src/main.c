@@ -20,12 +20,12 @@ int main(int argc, char* argv[])
   // MAIN LOOP
   for (;;){
 
-    draw_frame(main_board);
     
     if(!game_step())
       break;
-
-    // sleep_ms(100);
+    
+    draw_frame(main_board);
+    sleep_ms(100000);
 
   }
 
