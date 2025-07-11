@@ -2,7 +2,7 @@
 #include <unistd.h>
 
 #include "../inc/render.h"
-#include "../inc/board.h"
+#include "../inc/engine.h"
 #include "../inc/cell.h"
 
 void render_board(cell_entity board[height_y][width_x])

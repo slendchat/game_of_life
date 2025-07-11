@@ -10,6 +10,8 @@ typedef struct {
     cell_status cell_type;
     int pos_x;
     int pos_y;
+    char neighbors;
+    char dirty;
 } cell_entity;
 
 void cell_die(cell_entity* cell);
